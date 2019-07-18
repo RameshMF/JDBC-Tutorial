@@ -1,7 +1,6 @@
 # JDBC-4.2-Tutorial
 JDBC 4.2 Tutorial with Java 8
 
-# JDBC 4.2 Tutorial
 
 <div dir="ltr" style="text-align: left;" trbidi="on">
 
