@@ -20,20 +20,18 @@ public class JdbcReadImage {
 
     public static void main(String[] args) {
 
-        String url = "jdbc:mysql://localhost:3306/demo?useSSL=false";
+        String url = "jdbc:mysql://localhost:3306/java_demo?useSSL=false";
         String user = "root";
         String password = "root";
 
-        String query = "SELECT Data FROM Images LIMIT 1";
+        String query = "SELECT Data FROM Images where id = 2";
 
-        try (Connection con = DriverManager.getConnection(url, user, password);
-                PreparedStatement pst = con.prepareStatement(query);
-                ResultSet result = pst.executeQuery()) {
+        try (Connection con = DriverManager.getConnection(url, user, password); PreparedStatement pst = con.prepareStatement(query); ResultSet result = pst.executeQuery()) {
 
             if (result.next()) {
 
-                String fileName = "image.png";
-                
+                String fileName = "image1.png";
+
                 try (FileOutputStream fos = new FileOutputStream(fileName)) {
 
                     Blob blob = result.getBlob("Data");
@@ -42,9 +40,9 @@ public class JdbcReadImage {
                     byte[] buf = blob.getBytes(1, len);
 
                     fos.write(buf, 0, len);
-                    
+
                 } catch (IOException ex) {
-                
+
                     Logger lgr = Logger.getLogger(JdbcReadImage.class.getName());
                     lgr.log(Level.SEVERE, ex.getMessage(), ex);
                 }

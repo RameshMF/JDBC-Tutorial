@@ -17,33 +17,34 @@ import java.util.logging.Logger;
  */
 public class JdbcWriteImage {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException {
 
-        String cs = "jdbc:mysql://localhost:3306/demo?useSSL=false";
+        String url = "jdbc:mysql://localhost:3306/java_demo?useSSL=false";
         String user = "root";
         String password = "root";
 
         String sql = "INSERT INTO Images(Data) VALUES(?)";
 
-        try (Connection con = DriverManager.getConnection(cs, user, password);
-                PreparedStatement pst = con.prepareStatement(sql)) {
+        try (Connection con = DriverManager.getConnection(url, user, password); 
+        		PreparedStatement pst = con.prepareStatement(sql)) {
 
-            File myFile = new File("Java Database Connectivity Tutorial.png");
-
+            File myFile = new File("image.png");
             try (FileInputStream fin = new FileInputStream(myFile)) {
 
                 pst.setBinaryStream(1, fin, (int) myFile.length());
                 pst.executeUpdate();
-                
+
             } catch (IOException ex) {
-                
+
                 Logger lgr = Logger.getLogger(JdbcWriteImage.class.getName());
                 lgr.log(Level.SEVERE, ex.getMessage(), ex);
             }
         } catch (SQLException ex) {
-            
+
             Logger lgr = Logger.getLogger(JdbcWriteImage.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
+        
+        System.out.println("Image inserted successfully....");
     }
 }
